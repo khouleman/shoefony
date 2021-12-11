@@ -25,7 +25,7 @@
       return $this->render('main/contact.html.twig');
     }
 
-    #[Route('/produits-liste', name: 'main_product-list')]
+    #[Route('/produits-liste', name: 'store_product_list')]
     public function productList(): Response {
       return $this->render('main/productList.html.twig');
     }

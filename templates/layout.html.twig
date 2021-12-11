@@ -19,14 +19,15 @@
                     <a class="navbar-brand" href="/">Shoefony</a>
                 </div>
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    {% set current_route = app.request.attributes.get('_route') %}
                     <ul class="nav navbar-nav">
-                        <li>
+                        <li class=" {{ current_route is same as 'main_presentation' ? 'active' }}">
                             <a href="/presentation">Présentation</a>
                         </li>
-                        <li>
+                        <li class="{{ current_route starts with 'store_' ? 'active' }}">
                             <a href="/produits-liste">Nos produits</a>
                         </li>
-                        <li>
+                        <li class=" {{ current_route is same as 'main_contact' ? 'active' }}">
                             <a href="/contact">Contact</a>
                         </li>
                     </ul>
