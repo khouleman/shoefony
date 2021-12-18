@@ -4,6 +4,7 @@
 
   use App\Entity\Contact;
   use App\Form\ContactType;
+  use App\Mailer\ContactMailer;
   use Symfony\Component\HttpFoundation\Request;
   use Symfony\Component\HttpFoundation\Response;
   use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
