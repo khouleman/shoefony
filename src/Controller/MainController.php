@@ -1,60 +1,86 @@
 <?php
 
-  namespace App\Controller;
+namespace App\Controller;
 
-  use App\Entity\Contact;
-  use App\Form\ContactType;
-  use App\Mailer\ContactMailer;
-  use Symfony\Component\HttpFoundation\Request;
-  use Symfony\Component\HttpFoundation\Response;
-  use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-  use Symfony\Component\Routing\Annotation\Route;
+use App\Entity\Contact;
+use App\Form\ContactType;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
+use Symfony\Component\Routing\Annotation\Route;
 
-  class MainController extends AbstractController {
+class MainController extends AbstractController
+{
+    /** @var EntityManagerInterface */
+    private $em;
 
-    #[Route('/contact', name: 'main_contact', methods: ['GET', 'POST'])]
-    public function contact(Request $request): Response {
+    /** @var MailerInterface */
+    private $mailer;
 
-      // Creation de notre entite et du formulaire base dessus
-      $contact = new Contact();
-      $form = $this->createForm(ContactType::class, $contact);
+    /** @var string */
+    private $senderAddress;
 
-      // Demande au formulaire d'interpreter la Request
-      $form->handleRequest($request);
+    /** @var string */
+    private $contactAddress;
 
-      // Dans le cas de la soumission d'un formulaire valide
-      if ($form->isSubmitted() && $form->isValid()) {
-        $this->addFlash('success', 'Merci, votre message a bien été pris en compte !');
-
-        // Actions a effectuer apres envoi du formulaire
-        return $this->redirectToRoute('main_contact');
-      }
-
-      return $this->render('main/contact.html.twig', [
-        'form' => $form->createView(),
-      ]);
-
+    public function __construct(EntityManagerInterface $em, MailerInterface $mailer, string $senderAddress, string $contactAddress)
+    {
+        $this->em = $em;
+        $this->mailer = $mailer;
+        $this->senderAddress = $senderAddress;
+        $this->contactAddress = $contactAddress;
     }
 
-    #[Route('/', name: 'main_homepage', methods: ['GET'])]
-    public function homepage(): Response {
-      return $this->render('main/homepage.html.twig', [
-        'controller_name' => 'MainController',
-      ]);
+    /**
+     * @Route("/", name="main_homepage")
+     */
+    public function homepage(): Response
+    {
+        return $this->render('main/index.html.twig');
     }
 
-    #[Route('/presentation', name: 'main_presentation', methods: ['GET'])]
-    public function listProducts(): Response {
-      return $this->render('main/presentation.html.twig');
+    /**
+     * @Route("/presentation", name="main_presentation")
+     */
+    public function presentation(): Response
+    {
+        return $this->render('main/presentation.html.twig');
     }
 
+    /**
+     * @Route("/contact", name="main_contact")
+     */
+    public function contact(Request $request): Response
+    {
+        $contact = new Contact();
+        $form = $this->createForm(ContactType::class, $contact);
 
+        $form->handleRequest($request);
 
-    #[Route('/produits-liste', name: 'store_product_list')]
-    public function productList(): Response {
-      return $this->render('main/productList.html.twig');
+        if ($form->isSubmitted() && $form->isValid()) {
+            $email = (new Email())
+                ->subject('Une demande de contact a eu lieu')
+                ->to($this->contactAddress)
+                ->from($this->senderAddress)
+                ->html($this->renderView('email/contact.html.twig', [
+                    'contact' => $contact
+                ]));
+
+            $this->mailer->send($email);
+
+            $this->em->persist($contact);
+            $this->em->flush();
+
+            $this->addFlash('success', 'Votre demande contact a été prise en compte !');
+
+            return $this->redirectToRoute('main_contact');
+        }
+
+        return $this->render('main/contact.html.twig', [
+            'form' => $form->createView(),
+        ]);
     }
-
-  }
-
-
+}

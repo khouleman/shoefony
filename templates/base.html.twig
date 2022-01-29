@@ -1,25 +1,21 @@
-{# base. html. twig #}
 <!DOCTYPE html>
 <html lang="{{ app.request.locale }}">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>{% block title %} Shoefony {% endblock %}</title>
-    {% block stylesheets %}
-        <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
-        <link href="{{ asset('css/heroic-features.css') }}" rel="stylesheet">
-    {% endblock %}
-</head>
-<body>
-{% block body %}{% endblock %}
-{% block javascripts %}
-    <script src="https://code.jquery.com/jquery-3.2.1.min.js%22%3E"></script>
-{% endblock %}
-</body>
-<!-- Footer -->
-<footer>
-    <p>Copyright &copy; Shoefony {{ "now"|date('Y') }}</p>
-</footer>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><meta http-equiv="x-ua-compatible" content="ie=edge">
+        <meta name="description" content="Bienvenue sur mon site vitrine développé à l'aide du framework de développement web Symfony">
+        <meta name="author" content="Shoefony">
+        <title>{% block title %}Shoefony - My Symfony Store !{% endblock %}</title>
+        {% block stylesheets %}
+            <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
+        {% endblock %}
+    </head>
+    <body>
+        {% block body %}{% endblock %}
 
+        {% block javascripts %}
+            <script src="{{ asset('js/jquery.js') }}"></script>
+            <script src="{{ asset('js/bootstrap.min.js') }}"></script>
+        {% endblock %}
+    </body>
 </html>
