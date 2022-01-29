@@ -15,10 +15,10 @@ use Symfony\Component\Routing\Annotation\Route;
 class StoreController extends AbstractController
 {
     /** @var ProductRepository */
-    private $productRepository;
+    private ProductRepository $productRepository;
 
     /** @var BrandRepository */
-    private $brandRepository;
+    private BrandRepository $brandRepository;
 
     public function __construct(ProductRepository $productRepository, BrandRepository $brandRepository)
     {

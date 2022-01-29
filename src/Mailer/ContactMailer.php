@@ -3,6 +3,7 @@
   namespace App\Mailer;
 
   use App\Entity\Contact;
+  use Doctrine\ORM\EntityManagerInterface;
   use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
   use Symfony\Component\Mailer\MailerInterface;
   use Symfony\Component\Mime\Email;
@@ -26,7 +27,7 @@
         ->from($contact->getEmail())
         ->to($this->contactEmailAddress)
         ->subject('Un message de contact sur Shoefony')
-        ->html($this->twig->render('email/contact.html.twig', ['contact' => $contact]));
+        ->html($this->twig->render('contact/mainContact.html.twig', ['contact' => $contact]));
       try {
         $this->mailer->send($email);
       } catch (TransportExceptionInterface){

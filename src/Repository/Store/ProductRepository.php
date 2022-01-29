@@ -4,7 +4,7 @@ namespace App\Repository\Store;
 
 use App\Entity\Store\Product;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * @method Product|null find($id, $lockMode = null, $lockVersion = null)

@@ -15,23 +15,23 @@ use Symfony\Component\Routing\Annotation\Route;
 class MainController extends AbstractController
 {
     /** @var EntityManagerInterface */
-    private $em;
+    private EntityManagerInterface $em;
 
     /** @var MailerInterface */
-    private $mailer;
+    private MailerInterface $mailer;
 
     /** @var string */
-    private $senderAddress;
+    private string $senderAddress;
 
     /** @var string */
-    private $contactAddress;
+    private string $contactEmailAddress;
 
-    public function __construct(EntityManagerInterface $em, MailerInterface $mailer, string $senderAddress, string $contactAddress)
+    public function __construct(EntityManagerInterface $em, MailerInterface $mailer, string $senderAddress, string $contactEmailAddress)
     {
         $this->em = $em;
         $this->mailer = $mailer;
         $this->senderAddress = $senderAddress;
-        $this->contactAddress = $contactAddress;
+        $this->contactEmailAddress = $contactEmailAddress;
     }
 
     /**
@@ -63,7 +63,7 @@ class MainController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $email = (new Email())
                 ->subject('Une demande de contact a eu lieu')
-                ->to($this->contactAddress)
+                ->to($this->contactEmailAddress)
                 ->from($this->senderAddress)
                 ->html($this->renderView('email/contact.html.twig', [
                     'contact' => $contact
