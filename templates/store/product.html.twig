@@ -1,0 +1,87 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}{{ product.name|capitalize }} | {{ parent() }}{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-3">
+            <p class="lead">Nos marques</p>
+            <div class="list-group">
+                <a href="{{ path('store_list') }}" class="list-group-item">Toutes les marques</a>
+                {% for brand in brands %}
+                    <a href="#" class="list-group-item {{ product.brand.id is same as(brand.id) ? 'active' }}">{{ brand.name }}</a>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="col-md-9">
+            <p class="lead">
+                Fiche descriptive "{{ product.name|capitalize }}"
+                <a href="{{ path('store_list') }}" class="btn btn-default pull-right">Retour aux produits</a>
+            </p>
+            <div class="row">
+                <div class="thumbnail">
+                    <img class="img-responsive" src="{{ asset(product.image.publicPath) }}" alt="{{ product.image.alt }}">
+                    <div class="caption-full">
+                        <h4 class="pull-right"><span class="badge">{{ product.price|format_currency('EUR') }}</span></h4>
+                        <h3>{{ product.name|capitalize }}</h3>
+                        <p>{{ product.description }}</p>
+                        <p>
+                            {{ product.longDescription }}
+                        </p>
+                        {% for color in product.colors %}
+                            <span class="label label-info">{{ color.name }}</span>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="well">
+                    <p class="pull-right label label-success">Actuellement 3 avis</p>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <span class="label label-info">Prénom Nom</span>
+                            <span class="label label-default pull-right">28/01/2015</span>
+                            <p>Un commentaire sur le produit, rédigé par un client, sera affiché à cet endroit.</p>
+                        </div>
+                    </div>
+
+                    <hr/>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <span class="label label-info">Prénom Nom</span>
+                            <span class="label label-default pull-right">28/01/2015</span>
+                            <p>Un commentaire sur le produit, rédigé par un client, sera affiché à cet endroit.</p>
+                        </div>
+                    </div>
+
+                    <hr/>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <span class="label label-info">Prénom Nom</span>
+                            <span class="label label-default pull-right">28/01/2015</span>
+                            <p>Un commentaire sur le produit, rédigé par un client, sera affiché à cet endroit.</p>
+                        </div>
+                    </div>
+
+                    <hr/>
+
+                    <div>
+                        <form>
+                            <div class="form-group">
+                                <label for="name">Votre nom</label>
+                                <input type="text" class="form-control" id="name">
+                            </div>
+                            <div class="form-group">
+                                <label for="message">Votre avis</label>
+                                <textarea class="form-control" name="comment" rows="3"></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-info">Envoyer mon avis</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

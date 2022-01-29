@@ -1,0 +1,74 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}Nos produits | {{ parent() }}{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-3">
+            <p class="lead">Nos marques</p>
+            <div class="list-group">
+                <a href="{{ path('store_list') }}" class="list-group-item active">Toutes les marques</a>
+                {% for brand in brands %}
+                    <a href="#" class="list-group-item">{{ brand.name }}</a>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="col-md-9">
+            <p class="lead">Nos produits " Toutes les marques "</p>
+            <div class="row text-center">
+                {% for product in products %}
+                    <div class="col-md-4 col-sm-6 hero-feature">
+                        <div class="thumbnail">
+                            <img src="{{ asset(product.image.publicPath) }}" alt="{{ product.image.alt }}">
+                            <div class="caption">
+                                <h3>{{ product.name|capitalize }}</h3>
+                                <p>{{ product.description }}</p>
+                                <p>
+                                    <span class="badge">{{ product.price|format_currency('EUR') }}</span>
+                                    <a href="{{ path('store_product', {'id': product.id, 'slug': product.slug}) }}" class="btn btn-default">Voir la fiche</a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="alert alert-warning">
+                        Il n'y aucun produit ici...
+                    </div>
+                {% endfor %}
+            </div>
+
+            <div class="row text-center">
+                <nav>
+                    <ul class="pagination pagination-lg">
+                        <li>
+                            <a href="#" aria-label="Précédent">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                        <li class="active">
+                            <a href="#">1</a>
+                        </li>
+                        <li>
+                            <a href="#">2</a>
+                        </li>
+                        <li>
+                            <a href="#">3</a>
+                        </li>
+                        <li>
+                            <a href="#">4</a>
+                        </li>
+                        <li>
+                            <a href="#">5</a>
+                        </li>
+                        <li>
+                            <a href="#" aria-label="Suivant">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+{% endblock %}
