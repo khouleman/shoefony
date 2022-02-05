@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Contact;
 use App\Form\ContactType;
+use App\Repository\Store\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,18 +21,22 @@ class MainController extends AbstractController
     /** @var MailerInterface */
     private MailerInterface $mailer;
 
+    /** @var ProductRepository */
+    private ProductRepository $productRepository;
+
     /** @var string */
     private string $senderAddress;
 
     /** @var string */
-    private string $contactEmailAddress;
+    private string $contactAddress;
 
-    public function __construct(EntityManagerInterface $em, MailerInterface $mailer, string $senderAddress, string $contactEmailAddress)
+    public function __construct(EntityManagerInterface $em, MailerInterface $mailer, ProductRepository $productRepository, string $senderAddress, string $contactAddress)
     {
         $this->em = $em;
         $this->mailer = $mailer;
+        $this->productRepository = $productRepository;
         $this->senderAddress = $senderAddress;
-        $this->contactEmailAddress = $contactEmailAddress;
+        $this->contactAddress = $contactAddress;
     }
 
     /**
@@ -39,7 +44,10 @@ class MainController extends AbstractController
      */
     public function homepage(): Response
     {
-        return $this->render('main/index.html.twig');
+        return $this->render('main/index.html.twig', [
+            'lastProducts' => $this->productRepository->findLastCreated(),
+            'mostCommentedProducts' => $this->productRepository->findMostCommented()
+        ]);
     }
 
     /**
@@ -63,13 +71,13 @@ class MainController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $email = (new Email())
                 ->subject('Une demande de contact a eu lieu')
-                ->to($this->contactEmailAddress)
+                ->to($this->contactAddress)
                 ->from($this->senderAddress)
                 ->html($this->renderView('email/contact.html.twig', [
                     'contact' => $contact
                 ]));
 
-            $this->mailer->send($email);
+            //$this->mailer->send($email);
 
             $this->em->persist($contact);
             $this->em->flush();

@@ -1,0 +1,12 @@
+<p class="lead">Nos marques</p>
+<div class="list-group">
+    <a href="{{ path('store_list') }}" class="list-group-item {{ not currentBrandId ? 'active' }}">Toutes les marques</a>
+    {% for brand in brands %}
+        <a
+            href="{{ path('store_list_by_brand', {'id': brand.id}) }}"
+            class="list-group-item {{ currentBrandId is same as(brand.id) ? 'active' }}"
+        >
+            {{ brand.name }}
+        </a>
+    {% endfor %}
+</div>

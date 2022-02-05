@@ -3,15 +3,14 @@
 namespace App\Repository;
 
 use App\Entity\Contact;
-use App\Entity\Store\Product;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Common\Persistence\ManagerRegistry;
 
 /**
- * @method Product|null find($id, $lockMode = null, $lockVersion = null)
- * @method Product|null findOneBy(array $criteria, array $orderBy = null)
- * @method Product[]    findAll()
- * @method Product[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Contact|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Contact|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Contact[]    findAll()
+ * @method Contact[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class ContactRepository extends ServiceEntityRepository
 {

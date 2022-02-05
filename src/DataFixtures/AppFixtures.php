@@ -4,6 +4,7 @@ namespace App\DataFixtures;
 
 use App\Entity\Store\Brand;
 use App\Entity\Store\Color;
+use App\Entity\Store\Comment;
 use App\Entity\Store\Image;
 use App\Entity\Store\Product;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -22,6 +23,7 @@ class AppFixtures extends Fixture
         $this->loadBrands();
         $this->loadColors();
         $this->loadProducts();
+        $this->loadComments();
 
         $this->manager->flush();
     }
@@ -92,6 +94,41 @@ class AppFixtures extends Fixture
             }
 
             $this->manager->persist($product);
+            $this->addReference(Product::class.$i, $product);
         }
+    }
+
+    private function loadComments(): void
+    {
+        for ($i = 1; $i < 15; $i++) {
+            /** @var Product $product */
+            $product = $this->getReference(Product::class.$i);
+
+            for ($j = 0; $j < random_int(0, 20); $j++) {
+                $comment = (new Comment())
+                    ->setPseudo($this->randomPseudo())
+                    ->setMessage('Super ton '.$product->getName())
+                    ->setProduct($product);
+
+                $this->manager->persist($comment);
+            }
+        }
+    }
+
+    private function randomPseudo(): string
+    {
+        $pseudo = [
+            'DzeSnakE',
+            'khouleman',
+            'Atong',
+            'Mezza',
+            'chrisdemon8',
+            'Valczi'
+        ];
+
+        return sprintf(
+            '%s',
+            $pseudo[random_int(0, count($pseudo) - 1)],
+        );
     }
 }
