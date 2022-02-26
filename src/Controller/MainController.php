@@ -16,19 +16,19 @@ use Symfony\Component\Routing\Annotation\Route;
 class MainController extends AbstractController
 {
     /** @var EntityManagerInterface */
-    private EntityManagerInterface $em;
+    private $em;
 
     /** @var MailerInterface */
-    private MailerInterface $mailer;
+    private $mailer;
 
     /** @var ProductRepository */
-    private ProductRepository $productRepository;
+    private $productRepository;
 
     /** @var string */
-    private string $senderAddress;
+    private $senderAddress;
 
     /** @var string */
-    private string $contactAddress;
+    private $contactAddress;
 
     public function __construct(EntityManagerInterface $em, MailerInterface $mailer, ProductRepository $productRepository, string $senderAddress, string $contactAddress)
     {
@@ -77,7 +77,7 @@ class MainController extends AbstractController
                     'contact' => $contact
                 ]));
 
-            //$this->mailer->send($email);
+            $this->mailer->send($email);
 
             $this->em->persist($contact);
             $this->em->flush();

@@ -4,7 +4,7 @@ namespace App\Repository\Store;
 
 use App\Entity\Store\Brand;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Common\Persistence\ManagerRegistry;
 
 /**
  * @method Brand|null find($id, $lockMode = null, $lockVersion = null)

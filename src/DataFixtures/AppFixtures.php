@@ -117,18 +117,29 @@ class AppFixtures extends Fixture
 
     private function randomPseudo(): string
     {
-        $pseudo = [
-            'DzeSnakE',
-            'khouleman',
-            'Atong',
-            'Mezza',
-            'chrisdemon8',
-            'Valczi'
+        $game = [
+            'tft',
+            'lol',
+            'fornite',
+            'wow',
+            'hs',
+            'random',
+        ];
+
+        $dpt = [
+            'du57',
+            '57',
+            '88',
+            '92i',
+            '78',
+            'du54',
+            '54'
         ];
 
         return sprintf(
-            '%s',
-            $pseudo[random_int(0, count($pseudo) - 1)],
+            '%s_player%s',
+            $game[random_int(0, count($game) - 1)],
+            $dpt[random_int(0, count($dpt) - 1)]
         );
     }
 }

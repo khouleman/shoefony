@@ -5,13 +5,7 @@
 {% block content %}
     <div class="row">
         <div class="col-md-3">
-            <p class="lead">Nos marques</p>
-            <div class="list-group">
-                <a href="{{ path('store_list') }}" class="list-group-item">Toutes les marques</a>
-                {% for brand in brands %}
-                    <a href="#" class="list-group-item {{ product.brand.id is same as(brand.id) ? 'active' }}">{{ brand.name }}</a>
-                {% endfor %}
-            </div>
+            {{ render(controller('App\\Controller\\StoreController::listBrands', {'currentBrandId': product.brand.id})) }}
         </div>
 
         <div class="col-md-9">
@@ -36,49 +30,33 @@
                 </div>
 
                 <div class="well">
-                    <p class="pull-right label label-success">Actuellement 3 avis</p>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <span class="label label-info">Prénom Nom</span>
-                            <span class="label label-default pull-right">28/01/2015</span>
-                            <p>Un commentaire sur le produit, rédigé par un client, sera affiché à cet endroit.</p>
+                    <p class="pull-right label label-success">Actuellement {{ product.comments.count }} avis</p>
+                    {% for comment in product.comments %}
+                        <div class="row">
+                            <div class="col-md-12">
+                                <span class="label label-info">{{ comment.pseudo }}</span>
+                                <span class="label label-default pull-right">{{ comment.createdAt|date('d/m/Y H:i') }}</span>
+                                <p>{{ comment.message|nl2br }}</p>
+                            </div>
                         </div>
-                    </div>
 
-                    <hr/>
-
-                    <div class="row">
-                        <div class="col-md-12">
-                            <span class="label label-info">Prénom Nom</span>
-                            <span class="label label-default pull-right">28/01/2015</span>
-                            <p>Un commentaire sur le produit, rédigé par un client, sera affiché à cet endroit.</p>
-                        </div>
-                    </div>
-
-                    <hr/>
-
-                    <div class="row">
-                        <div class="col-md-12">
-                            <span class="label label-info">Prénom Nom</span>
-                            <span class="label label-default pull-right">28/01/2015</span>
-                            <p>Un commentaire sur le produit, rédigé par un client, sera affiché à cet endroit.</p>
-                        </div>
-                    </div>
-
-                    <hr/>
+                        <hr/>
+                    {% endfor %}
 
                     <div>
-                        <form>
+                        {{ form_start(form) }}
                             <div class="form-group">
-                                <label for="name">Votre nom</label>
-                                <input type="text" class="form-control" id="name">
+                                {{ form_errors(form.pseudo) }}
+                                {{ form_label(form.pseudo) }}
+                                {{ form_widget(form.pseudo, {'attr': {'class': 'form-control', 'placeholder': form.pseudo.vars.label} }) }}
                             </div>
                             <div class="form-group">
-                                <label for="message">Votre avis</label>
-                                <textarea class="form-control" name="comment" rows="3"></textarea>
+                                {{ form_errors(form.message) }}
+                                {{ form_label(form.message) }}
+                                {{ form_widget(form.message, {'attr': {'class': 'form-control', 'placeholder': form.message.vars.label, 'rows': 5} }) }}
                             </div>
                             <button type="submit" class="btn btn-info">Envoyer mon avis</button>
-                        </form>
+                        {{ form_end(form) }}
                     </div>
                 </div>
             </div>

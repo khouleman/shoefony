@@ -5,9 +5,8 @@ namespace App\Repository\Store;
 use App\Entity\Store\Brand;
 use App\Entity\Store\Product;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\QueryBuilder;
-use Doctrine\Persistence\ManagerRegistry;
-
 
 /**
  * @method Product|null find($id, $lockMode = null, $lockVersion = null)
@@ -36,7 +35,7 @@ class ProductRepository extends ServiceEntityRepository
             ])
             ->leftJoin($alias.'.brand', 'b')
             ->leftJoin($alias.'.colors', 'col')
-            ;
+        ;
     }
 
     public function findOneWithDetails(int $id): ?Product

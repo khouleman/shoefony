@@ -52,7 +52,7 @@ class Contact
      * @ORM\Column(type="text")
      *
      * @Assert\NotBlank()
-     * @Assert\Length(min="25")
+     * @Assert\Length(min="15")
      */
     private $message;
 

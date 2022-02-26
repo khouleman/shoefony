@@ -19,13 +19,13 @@ use Symfony\Component\Routing\Annotation\Route;
 class StoreController extends AbstractController
 {
     /** @var EntityManagerInterface */
-    private EntityManagerInterface $em;
+    private $em;
 
     /** @var ProductRepository */
-    private ProductRepository $productRepository;
+    private $productRepository;
 
     /** @var BrandRepository */
-    private BrandRepository $brandRepository;
+    private $brandRepository;
 
     public function __construct(EntityManagerInterface $em, ProductRepository $productRepository, BrandRepository $brandRepository)
     {
@@ -40,7 +40,6 @@ class StoreController extends AbstractController
     {
         return $this->render('store/list.html.twig', [
             'products' => $this->productRepository->findList(),
-            'brands' => $this->brandRepository->findAll(),
         ]);
     }
 
@@ -56,7 +55,7 @@ class StoreController extends AbstractController
 
         return $this->render('store/list.html.twig', [
             'products' => $this->productRepository->findByBrand($brand),
-            'brands' => $brand,
+            'brand' => $brand,
         ]);
     }
 
@@ -91,14 +90,12 @@ class StoreController extends AbstractController
             return $this->redirectToRoute('store_product', [
                 'id' => $product->getId(),
                 'slug' => $product->getSlug(),
-
             ]);
         }
 
         return $this->render('store/product.html.twig', [
             'product' => $product,
-            'form' => $form->createView(),
-            'brands'=> $this->brandRepository->findAll(),
+            'form' => $form->createView()
         ]);
     }
 
