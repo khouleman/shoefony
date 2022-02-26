@@ -4,7 +4,7 @@ namespace App\Repository\Store;
 
 use App\Entity\Store\Color;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * @method Color|null find($id, $lockMode = null, $lockVersion = null)
